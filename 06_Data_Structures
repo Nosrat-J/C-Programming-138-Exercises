@@ -1,0 +1,587 @@
+// 100. Implement Stack Using Array
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 100
+int stack[MAX], top = -1;
+void push(int val) {
+    if (top == MAX - 1) printf("Stack overflow\n");
+    else stack[++top] = val;
+}
+int pop() {
+    if (top == -1) { printf("Stack underflow\n"); return -1; }
+    else return stack[top--];
+}
+void display() {
+    if (top == -1) printf("Empty\n");
+    else { for (int i = top; i >= 0; i--) printf("%d ", stack[i]); printf("\n"); }
+}
+int main() {
+    int choice, val;
+    while (1) {
+        printf("\n1.Push 2.Pop 3.Display 4.Exit: ");
+        scanf("%d", &choice);
+        if (choice == 1) { printf("Value: "); scanf("%d", &val); push(val); }
+        else if (choice == 2) { val = pop(); if (val != -1) printf("Popped %d\n", val); }
+        else if (choice == 3) display();
+        else break;
+    }
+    return 0;
+}
+
+// 101. Implement Queue Using Array
+#include <stdio.h>
+#define MAX 100
+int queue[MAX], front = -1, rear = -1;
+void enqueue(int val) {
+    if (rear == MAX - 1) printf("Queue full\n");
+    else { if (front == -1) front = 0; queue[++rear] = val; }
+}
+int dequeue() {
+    if (front == -1 || front > rear) { printf("Empty\n"); return -1; }
+    return queue[front++];
+}
+void display() {
+    if (front == -1 || front > rear) printf("Empty\n");
+    else for (int i = front; i <= rear; i++) printf("%d ", queue[i]); printf("\n");
+}
+int main() {
+    int choice, val;
+    while (1) {
+        printf("\n1.Enqueue 2.Dequeue 3.Display 4.Exit: ");
+        scanf("%d", &choice);
+        if (choice == 1) { printf("Value: "); scanf("%d", &val); enqueue(val); }
+        else if (choice == 2) { val = dequeue(); if (val != -1) printf("Dequeued %d\n", val); }
+        else if (choice == 3) display();
+        else break;
+    }
+    return 0;
+}
+
+// 102. Implement Circular Queue
+#include <stdio.h>
+#define MAX 5
+int cqueue[MAX], front = -1, rear = -1;
+void enqueue(int val) {
+    if ((front == 0 && rear == MAX - 1) || (rear == (front - 1) % (MAX - 1)))
+        printf("Full\n");
+    else if (front == -1) { front = rear = 0; cqueue[rear] = val; }
+    else if (rear == MAX - 1 && front != 0) { rear = 0; cqueue[rear] = val; }
+    else { rear++; cqueue[rear] = val; }
+}
+int dequeue() {
+    if (front == -1) { printf("Empty\n"); return -1; }
+    int data = cqueue[front];
+    if (front == rear) front = rear = -1;
+    else if (front == MAX - 1) front = 0;
+    else front++;
+    return data;
+}
+void display() {
+    if (front == -1) printf("Empty\n");
+    else {
+        if (rear >= front)
+            for (int i = front; i <= rear; i++) printf("%d ", cqueue[i]);
+        else {
+            for (int i = front; i < MAX; i++) printf("%d ", cqueue[i]);
+            for (int i = 0; i <= rear; i++) printf("%d ", cqueue[i]);
+        }
+        printf("\n");
+    }
+}
+int main() {
+    int choice, val;
+    while (1) {
+        printf("\n1.Enqueue 2.Dequeue 3.Display 4.Exit: ");
+        scanf("%d", &choice);
+        if (choice == 1) { printf("Value: "); scanf("%d", &val); enqueue(val); }
+        else if (choice == 2) { val = dequeue(); if (val != -1) printf("Dequeued %d\n", val); }
+        else if (choice == 3) display();
+        else break;
+    }
+    return 0;
+}
+
+// 103. Implement Doubly Linked List
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node *prev, *next;
+};
+struct Node *head = NULL;
+void insertBegin(int val) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = val;
+    newNode->prev = NULL;
+    newNode->next = head;
+    if (head != NULL) head->prev = newNode;
+    head = newNode;
+}
+void display() {
+    struct Node *temp = head;
+    while (temp != NULL) { printf("%d ", temp->data); temp = temp->next; }
+    printf("\n");
+}
+int main() {
+    int choice, val;
+    while (1) {
+        printf("\n1.Insert at begin 2.Display 3.Exit: ");
+        scanf("%d", &choice);
+        if (choice == 1) { printf("Value: "); scanf("%d", &val); insertBegin(val); }
+        else if (choice == 2) display();
+        else break;
+    }
+    return 0;
+}
+
+// 104. Reverse a Linked List
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node *next;
+};
+struct Node *head = NULL;
+void insert(int val) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = val;
+    newNode->next = head;
+    head = newNode;
+}
+void reverse() {
+    struct Node *prev = NULL, *curr = head, *next = NULL;
+    while (curr != NULL) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    head = prev;
+}
+void display() {
+    struct Node *temp = head;
+    while (temp != NULL) { printf("%d ", temp->data); temp = temp->next; }
+    printf("\n");
+}
+int main() {
+    int n, val;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    printf("Enter elements: ");
+    for (int i = 0; i < n; i++) { scanf("%d", &val); insert(val); }
+    printf("Original: "); display();
+    reverse();
+    printf("Reversed: "); display();
+    return 0;
+}
+
+// 105. Detect Loop in a Linked List
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node *next;
+};
+int detectLoop(struct Node *head) {
+    struct Node *slow = head, *fast = head;
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) return 1;
+    }
+    return 0;
+}
+int main() {
+    struct Node *head = NULL, *second = NULL, *third = NULL;
+    head = (struct Node*)malloc(sizeof(struct Node));
+    second = (struct Node*)malloc(sizeof(struct Node));
+    third = (struct Node*)malloc(sizeof(struct Node));
+    head->data = 1; head->next = second;
+    second->data = 2; second->next = third;
+    third->data = 3; third->next = head;
+    if (detectLoop(head)) printf("Loop detected\n");
+    else printf("No loop\n");
+    return 0;
+}
+
+// 106. Create a Copy of a Singly Linked List using Recursion
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node *next;
+};
+struct Node* copyRecur(struct Node *original) {
+    if (original == NULL) return NULL;
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = original->data;
+    newNode->next = copyRecur(original->next);
+    return newNode;
+}
+void display(struct Node *head) {
+    while (head != NULL) { printf("%d ", head->data); head = head->next; }
+    printf("\n");
+}
+int main() {
+    struct Node *original = NULL, *temp, *prev = NULL;
+    int n, val;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    printf("Enter elements: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &val);
+        temp = (struct Node*)malloc(sizeof(struct Node));
+        temp->data = val; temp->next = NULL;
+        if (original == NULL) original = temp;
+        else prev->next = temp;
+        prev = temp;
+    }
+    struct Node *copy = copyRecur(original);
+    printf("Original: "); display(original);
+    printf("Copy: "); display(copy);
+    return 0;
+}
+
+// 107. Implement Binary Search Tree (BST) Operations
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node *left, *right;
+};
+struct Node* createNode(int val) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = val;
+    newNode->left = newNode->right = NULL;
+    return newNode;
+}
+struct Node* insert(struct Node *root, int val) {
+    if (root == NULL) return createNode(val);
+    if (val < root->data) root->left = insert(root->left, val);
+    else if (val > root->data) root->right = insert(root->right, val);
+    return root;
+}
+void inorder(struct Node *root) {
+    if (root != NULL) {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+int main() {
+    struct Node *root = NULL;
+    int n, val;
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+    printf("Enter values: ");
+    for (int i = 0; i < n; i++) { scanf("%d", &val); root = insert(root, val); }
+    printf("Inorder traversal: ");
+    inorder(root);
+    printf("\n");
+    return 0;
+}
+
+// 108. Find Modular Exponentiation (a^b % m)
+#include <stdio.h>
+long long modExp(long long a, long long b, long long m) {
+    long long result = 1;
+    a = a % m;
+    while (b > 0) {
+        if (b & 1) result = (result * a) % m;
+        a = (a * a) % m;
+        b >>= 1;
+    }
+    return result;
+}
+int main() {
+    long long a, b, m;
+    printf("Enter a, b, m: ");
+    scanf("%lld %lld %lld", &a, &b, &m);
+    printf("%lld^%lld mod %lld = %lld\n", a, b, m, modExp(a, b, m));
+    return 0;
+}
+
+// 109. Implement Hashing (Basic)
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+struct Node {
+    int key;
+    struct Node *next;
+};
+struct Node *hashTable[SIZE];
+int hash(int key) { return key % SIZE; }
+void insert(int key) {
+    int index = hash(key);
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->key = key;
+    newNode->next = hashTable[index];
+    hashTable[index] = newNode;
+}
+void display() {
+    for (int i = 0; i < SIZE; i++) {
+        printf("%d: ", i);
+        struct Node *temp = hashTable[i];
+        while (temp != NULL) { printf("%d -> ", temp->key); temp = temp->next; }
+        printf("NULL\n");
+    }
+}
+int main() {
+    for (int i = 0; i < SIZE; i++) hashTable[i] = NULL;
+    int n, key;
+    printf("Enter number of keys: ");
+    scanf("%d", &n);
+    printf("Enter keys: ");
+    for (int i = 0; i < n; i++) { scanf("%d", &key); insert(key); }
+    display();
+    return 0;
+}
+
+// 110. Find All Subsets of a Set (Using Recursion)
+#include <stdio.h>
+void printSubset(int arr[], int subset[], int n, int idx, int subsetIdx) {
+    if (idx == n) {
+        printf("{ ");
+        for (int i = 0; i < subsetIdx; i++) printf("%d ", subset[i]);
+        printf("}\n");
+        return;
+    }
+    printSubset(arr, subset, n, idx + 1, subsetIdx);
+    subset[subsetIdx] = arr[idx];
+    printSubset(arr, subset, n, idx + 1, subsetIdx + 1);
+}
+int main() {
+    int arr[] = {1, 2, 3};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int subset[n];
+    printf("All subsets:\n");
+    printSubset(arr, subset, n, 0, 0);
+    return 0;
+}
+
+// 111. Implement Tower of Hanoi Problem
+#include <stdio.h>
+void towerOfHanoi(int n, char from, char to, char aux) {
+    if (n == 1) {
+        printf("Move disk 1 from %c to %c\n", from, to);
+        return;
+    }
+    towerOfHanoi(n - 1, from, aux, to);
+    printf("Move disk %d from %c to %c\n", n, from, to);
+    towerOfHanoi(n - 1, aux, to, from);
+}
+int main() {
+    int n;
+    printf("Enter number of disks: ");
+    scanf("%d", &n);
+    towerOfHanoi(n, 'A', 'C', 'B');
+    return 0;
+}
+
+// 112. Simulate ATM Transactions
+#include <stdio.h>
+int main() {
+    int balance = 10000, choice, amount;
+    while (1) {
+        printf("\n--- ATM ---\n1.Check Balance\n2.Withdraw\n3.Deposit\n4.Exit\nChoice: ");
+        scanf("%d", &choice);
+        if (choice == 1) printf("Balance: Rs.%d\n", balance);
+        else if (choice == 2) {
+            printf("Amount: "); scanf("%d", &amount);
+            if (amount <= balance) balance -= amount;
+            else printf("Insufficient balance\n");
+        } else if (choice == 3) {
+            printf("Amount: "); scanf("%d", &amount);
+            balance += amount;
+        } else break;
+    }
+    return 0;
+}
+
+// 113. Find Longest Common Subsequence (LCS)
+#include <stdio.h>
+#include <string.h>
+int max(int a, int b) { return (a > b) ? a : b; }
+int lcs(char *X, char *Y, int m, int n) {
+    if (m == 0 || n == 0) return 0;
+    if (X[m - 1] == Y[n - 1]) return 1 + lcs(X, Y, m - 1, n - 1);
+    else return max(lcs(X, Y, m, n - 1), lcs(X, Y, m - 1, n));
+}
+int main() {
+    char X[100], Y[100];
+    printf("Enter first string: ");
+    scanf("%s", X);
+    printf("Enter second string: ");
+    scanf("%s", Y);
+    printf("LCS length = %d\n", lcs(X, Y, strlen(X), strlen(Y)));
+    return 0;
+}
+
+// 114. Check Balanced Parentheses Using Stack
+#include <stdio.h>
+#include <string.h>
+#define MAX 100
+char stack[MAX];
+int top = -1;
+void push(char c) { if (top < MAX - 1) stack[++top] = c; }
+char pop() { return (top >= 0) ? stack[top--] : '\0'; }
+int isMatchingPair(char open, char close) {
+    return (open == '(' && close == ')') ||
+           (open == '{' && close == '}') ||
+           (open == '[' && close == ']');
+}
+int checkBalanced(char expr[]) {
+    for (int i = 0; expr[i]; i++) {
+        if (expr[i] == '(' || expr[i] == '{' || expr[i] == '[')
+            push(expr[i]);
+        else if (expr[i] == ')' || expr[i] == '}' || expr[i] == ']') {
+            if (top == -1) return 0;
+            char popped = pop();
+            if (!isMatchingPair(popped, expr[i])) return 0;
+        }
+    }
+    return (top == -1);
+}
+int main() {
+    char expr[MAX];
+    printf("Enter expression: ");
+    scanf("%s", expr);
+    if (checkBalanced(expr)) printf("Balanced\n");
+    else printf("Not balanced\n");
+    return 0;
+}
+
+// 115. Implement Matrix Multiplication (Dynamic Memory)
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+    int r1, c1, r2, c2;
+    printf("Enter rows and cols of first matrix: ");
+    scanf("%d %d", &r1, &c1);
+    printf("Enter rows and cols of second matrix: ");
+    scanf("%d %d", &r2, &c2);
+    if (c1 != r2) { printf("Multiplication not possible\n"); return 1; }
+    int **A = (int**)malloc(r1 * sizeof(int*));
+    int **B = (int**)malloc(r2 * sizeof(int*));
+    int **C = (int**)malloc(r1 * sizeof(int*));
+    for (int i = 0; i < r1; i++) A[i] = (int*)malloc(c1 * sizeof(int));
+    for (int i = 0; i < r2; i++) B[i] = (int*)malloc(c2 * sizeof(int));
+    for (int i = 0; i < r1; i++) C[i] = (int*)calloc(c2, sizeof(int));
+    printf("Enter first matrix:\n");
+    for (int i = 0; i < r1; i++)
+        for (int j = 0; j < c1; j++) scanf("%d", &A[i][j]);
+    printf("Enter second matrix:\n");
+    for (int i = 0; i < r2; i++)
+        for (int j = 0; j < c2; j++) scanf("%d", &B[i][j]);
+    for (int i = 0; i < r1; i++)
+        for (int j = 0; j < c2; j++)
+            for (int k = 0; k < c1; k++)
+                C[i][j] += A[i][k] * B[k][j];
+    printf("Product:\n");
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++) printf("%d ", C[i][j]);
+        printf("\n");
+    }
+    for (int i = 0; i < r1; i++) free(A[i]);
+    for (int i = 0; i < r2; i++) free(B[i]);
+    for (int i = 0; i < r1; i++) free(C[i]);
+    free(A); free(B); free(C);
+    return 0;
+}
+
+// 116. Transpose a Matrix Using Pointers
+#include <stdio.h>
+void transpose(int *mat, int *res, int rows, int cols) {
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            *(res + j * rows + i) = *(mat + i * cols + j);
+}
+int main() {
+    int rows, cols;
+    printf("Enter rows and columns: ");
+    scanf("%d %d", &rows, &cols);
+    int mat[rows][cols], res[cols][rows];
+    printf("Enter elements:\n");
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            scanf("%d", &mat[i][j]);
+    transpose(&mat[0][0], &res[0][0], rows, cols);
+    printf("Transpose:\n");
+    for (int i = 0; i < cols; i++) {
+        for (int j = 0; j < rows; j++)
+            printf("%d ", res[i][j]);
+        printf("\n");
+    }
+    return 0;
+}
+
+// 117. Store Information of Students Using Structure
+#include <stdio.h>
+struct Student {
+    char name[50];
+    int roll;
+    float marks;
+};
+int main() {
+    struct Student s;
+    printf("Enter name: "); scanf("%s", s.name);
+    printf("Enter roll: "); scanf("%d", &s.roll);
+    printf("Enter marks: "); scanf("%f", &s.marks);
+    printf("\nStudent Details:\nName: %s\nRoll: %d\nMarks: %.2f\n", s.name, s.roll, s.marks);
+    return 0;
+}
+
+// 118. Store Student Records as Structures and Sort them by Name
+#include <stdio.h>
+#include <string.h>
+struct Student {
+    char name[50];
+    int roll;
+    float marks;
+};
+int main() {
+    int n;
+    printf("Enter number of students: ");
+    scanf("%d", &n);
+    struct Student s[n], temp;
+    for (int i = 0; i < n; i++) {
+        printf("Student %d:\n", i + 1);
+        printf("Name: "); scanf("%s", s[i].name);
+        printf("Roll: "); scanf("%d", &s[i].roll);
+        printf("Marks: "); scanf("%f", &s[i].marks);
+    }
+    for (int i = 0; i < n - 1; i++)
+        for (int j = 0; j < n - i - 1; j++)
+            if (strcmp(s[j].name, s[j + 1].name) > 0) {
+                temp = s[j];
+                s[j] = s[j + 1];
+                s[j + 1] = temp;
+            }
+    printf("\nSorted by name:\n");
+    for (int i = 0; i < n; i++)
+        printf("%s %d %.2f\n", s[i].name, s[i].roll, s[i].marks);
+    return 0;
+}
+
+// 119. Add Two Complex Numbers by Passing Structure to a Function
+#include <stdio.h>
+typedef struct {
+    float real;
+    float imag;
+} Complex;
+Complex add(Complex a, Complex b) {
+    Complex result;
+    result.real = a.real + b.real;
+    result.imag = a.imag + b.imag;
+    return result;
+}
+int main() {
+    Complex c1, c2, sum;
+    printf("Enter first complex (real imag): ");
+    scanf("%f %f", &c1.real, &c1.imag);
+    printf("Enter second complex (real imag): ");
+    scanf("%f %f", &c2.real, &c2.imag);
+    sum = add(c1, c2);
+    printf("Sum = %.2f + %.2fi\n", sum.real, sum.imag);
+    return 0;
+}
