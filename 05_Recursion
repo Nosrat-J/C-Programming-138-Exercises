@@ -1,0 +1,175 @@
+// 91. Check Prime Number By Creating a Function
+#include <stdio.h>
+int isPrime(int n) {
+    if (n <= 1) return 0;
+    for (int i = 2; i <= n / 2; i++)
+        if (n % i == 0) return 0;
+    return 1;
+}
+int main() {
+    int n;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    if (isPrime(n)) printf("Prime\n");
+    else printf("Not prime\n");
+    return 0;
+}
+
+// 92. Display Prime Numbers Between Two Intervals Using Functions
+#include <stdio.h>
+int isPrime(int n) {
+    if (n <= 1) return 0;
+    for (int i = 2; i <= n / 2; i++)
+        if (n % i == 0) return 0;
+    return 1;
+}
+int main() {
+    int low, high;
+    printf("Enter two intervals: ");
+    scanf("%d %d", &low, &high);
+    printf("Primes: ");
+    for (int i = low; i <= high; i++)
+        if (isPrime(i)) printf("%d ", i);
+    printf("\n");
+    return 0;
+}
+
+// 93. Find All Roots of a Quadratic Equation
+#include <stdio.h>
+#include <math.h>
+int main() {
+    double a, b, c, disc, root1, root2, realPart, imagPart;
+    printf("Enter coefficients a, b, c: ");
+    scanf("%lf %lf %lf", &a, &b, &c);
+    disc = b * b - 4 * a * c;
+    if (disc > 0) {
+        root1 = (-b + sqrt(disc)) / (2 * a);
+        root2 = (-b - sqrt(disc)) / (2 * a);
+        printf("Roots: %.2lf and %.2lf\n", root1, root2);
+    } else if (disc == 0) {
+        root1 = -b / (2 * a);
+        printf("Root: %.2lf\n", root1);
+    } else {
+        realPart = -b / (2 * a);
+        imagPart = sqrt(-disc) / (2 * a);
+        printf("Roots: %.2lf + %.2lfi and %.2lf - %.2lfi\n", realPart, imagPart, realPart, imagPart);
+    }
+    return 0;
+}
+
+// 94. Check Whether a Number can be Expressed as Sum of Two Prime Numbers
+#include <stdio.h>
+int isPrime(int n) {
+    if (n <= 1) return 0;
+    for (int i = 2; i <= n / 2; i++)
+        if (n % i == 0) return 0;
+    return 1;
+}
+int main() {
+    int n, flag = 0;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    for (int i = 2; i <= n / 2; i++) {
+        if (isPrime(i) && isPrime(n - i)) {
+            printf("%d = %d + %d\n", n, i, n - i);
+            flag = 1;
+            break;
+        }
+    }
+    if (!flag) printf("Cannot be expressed.\n");
+    return 0;
+}
+
+// 95. Find the Sum of Natural Numbers using Recursion
+#include <stdio.h>
+int sumRecur(int n) {
+    if (n == 0) return 0;
+    return n + sumRecur(n - 1);
+}
+int main() {
+    int n;
+    printf("Enter a natural number: ");
+    scanf("%d", &n);
+    printf("Sum = %d\n", sumRecur(n));
+    return 0;
+}
+
+// 96. Calculate the Factorial of a Number Using Recursion
+#include <stdio.h>
+int factRecur(int n) {
+    if (n == 0 || n == 1) return 1;
+    return n * factRecur(n - 1);
+}
+int main() {
+    int n;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    printf("Factorial = %d\n", factRecur(n));
+    return 0;
+}
+
+// 97. Find G.C.D Using Recursion
+#include <stdio.h>
+int gcdRecur(int a, int b) {
+    if (b == 0) return a;
+    return gcdRecur(b, a % b);
+}
+int main() {
+    int a, b;
+    printf("Enter two numbers: ");
+    scanf("%d %d", &a, &b);
+    printf("GCD = %d\n", gcdRecur(a, b));
+    return 0;
+}
+
+// 98. Reverse a Stack using Recursion
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 100
+int stack[MAX], top = -1;
+void push(int val) { if (top < MAX - 1) stack[++top] = val; }
+int pop() { return (top >= 0) ? stack[top--] : -1; }
+int isEmpty() { return top == -1; }
+void insertAtBottom(int item) {
+    if (isEmpty()) push(item);
+    else {
+        int temp = pop();
+        insertAtBottom(item);
+        push(temp);
+    }
+}
+void reverseStack() {
+    if (!isEmpty()) {
+        int temp = pop();
+        reverseStack();
+        insertAtBottom(temp);
+    }
+}
+int main() {
+    int n, val;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    printf("Enter %d elements: ", n);
+    for (int i = 0; i < n; i++) { scanf("%d", &val); push(val); }
+    reverseStack();
+    printf("Reversed stack: ");
+    while (!isEmpty()) printf("%d ", pop());
+    printf("\n");
+    return 0;
+}
+
+// 99. Calculate Power Using Recursion
+#include <stdio.h>
+double power(double base, int exp) {
+    if (exp == 0) return 1;
+    if (exp > 0) return base * power(base, exp - 1);
+    else return 1 / power(base, -exp);
+}
+int main() {
+    double base;
+    int exp;
+    printf("Enter base and exponent: ");
+    scanf("%lf %d", &base, &exp);
+    printf("Result = %.4lf\n", power(base, exp));
+    return 0;
+}
