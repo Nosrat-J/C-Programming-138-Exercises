@@ -1,0 +1,33 @@
+# Compiled Object Files
+*.o
+*.obj
+*.a
+*.so
+
+# Compiled Executables (Windows / Linux / Mac)
+*.exe
+*.out
+*.app
+
+# Debugging / Profiling files
+*.dSYM/
+*.gcda
+*.gcno
+*.log
+
+# Temporary Editor Files
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# IDE specific (VS Code, CodeBlocks, etc.)
+.vscode/
+.idea/
+*.code-workspace
+
+# Compiled Output directory (if you create one manually)
+/build/
+/bin/
+/output/
