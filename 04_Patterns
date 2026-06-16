@@ -1,0 +1,184 @@
+// 47. Print Inverted Pyramid
+#include <stdio.h>
+int main() {
+    int rows;
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    for (int i = rows; i >= 1; i--) {
+        for (int j = 1; j <= i; j++)
+            printf("* ");
+        printf("\n");
+    }
+    return 0;
+}
+
+// 48. Print Number Pattern
+#include <stdio.h>
+int main() {
+    int rows;
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    for (int i = 1; i <= rows; i++) {
+        for (int j = 1; j <= i; j++)
+            printf("%d ", j);
+        printf("\n");
+    }
+    return 0;
+}
+
+// 49. Print Character Pattern
+#include <stdio.h>
+int main() {
+    int rows;
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    for (int i = 1; i <= rows; i++) {
+        char ch = 'A';
+        for (int j = 1; j <= i; j++)
+            printf("%c ", ch++);
+        printf("\n");
+    }
+    return 0;
+}
+
+// 50. Print Continuous Character Pattern
+#include <stdio.h>
+int main() {
+    int rows;
+    char ch = 'A';
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    for (int i = 1; i <= rows; i++) {
+        for (int j = 1; j <= i; j++)
+            printf("%c ", ch++);
+        printf("\n");
+    }
+    return 0;
+}
+
+// 51. Print Hollow Star Pyramid
+#include <stdio.h>
+int main() {
+    int rows;
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    for (int i = 1; i <= rows; i++) {
+        for (int j = 1; j <= i; j++) {
+            if (j == 1 || j == i || i == rows)
+                printf("* ");
+            else
+                printf("  ");
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+// 52. Print Inverted Hollow Star Pyramid
+#include <stdio.h>
+int main() {
+    int rows;
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    for (int i = rows; i >= 1; i--) {
+        for (int j = 1; j <= i; j++) {
+            if (j == 1 || j == i || i == rows)
+                printf("* ");
+            else
+                printf("  ");
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+// 53. Print Hollow Star Pyramid in a Diamond Shape
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of rows (half): ");
+    scanf("%d", &n);
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n - i; j++) printf(" ");
+        for (int j = 1; j <= 2 * i - 1; j++) {
+            if (j == 1 || j == 2 * i - 1) printf("*");
+            else printf(" ");
+        }
+        printf("\n");
+    }
+    for (int i = n - 1; i >= 1; i--) {
+        for (int j = 1; j <= n - i; j++) printf(" ");
+        for (int j = 1; j <= 2 * i - 1; j++) {
+            if (j == 1 || j == 2 * i - 1) printf("*");
+            else printf(" ");
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+// 54. Print Full Diamond Shape Pyramid
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of rows (half): ");
+    scanf("%d", &n);
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n - i; j++) printf(" ");
+        for (int j = 1; j <= 2 * i - 1; j++) printf("*");
+        printf("\n");
+    }
+    for (int i = n - 1; i >= 1; i--) {
+        for (int j = 1; j <= n - i; j++) printf(" ");
+        for (int j = 1; j <= 2 * i - 1; j++) printf("*");
+        printf("\n");
+    }
+    return 0;
+}
+
+// 55. Print Pascal's Pattern Triangle Pyramid
+#include <stdio.h>
+int main() {
+    int rows, coef = 1;
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    for (int i = 0; i < rows; i++) {
+        for (int space = 1; space <= rows - i; space++) printf("  ");
+        for (int j = 0; j <= i; j++) {
+            if (j == 0 || i == 0) coef = 1;
+            else coef = coef * (i - j + 1) / j;
+            printf("%4d", coef);
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+// 56. Print Floyd's Pattern Triangle Pyramid
+#include <stdio.h>
+int main() {
+    int rows, num = 1;
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    for (int i = 1; i <= rows; i++) {
+        for (int j = 1; j <= i; j++)
+            printf("%d ", num++);
+        printf("\n");
+    }
+    return 0;
+}
+
+// 57. Print Reverse Floyd Pattern Triangle Pyramid
+#include <stdio.h>
+int main() {
+    int rows;
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    int num = rows * (rows + 1) / 2;
+    for (int i = rows; i >= 1; i--) {
+        for (int j = 1; j <= i; j++)
+            printf("%d ", num--);
+        printf("\n");
+    }
+    return 0;
+}
