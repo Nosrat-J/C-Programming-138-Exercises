@@ -1,0 +1,353 @@
+// 58. Find the Largest Element in an Array
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    int max = arr[0];
+    for (int i = 1; i < n; i++)
+        if (arr[i] > max) max = arr[i];
+    printf("Largest = %d\n", max);
+    return 0;
+}
+
+// 59. Find Maximum and Minimum in an Array
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    int max = arr[0], min = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) max = arr[i];
+        if (arr[i] < min) min = arr[i];
+    }
+    printf("Max = %d, Min = %d\n", max, min);
+    return 0;
+}
+
+// 60. Calculate the Average of All Elements in an Array
+#include <stdio.h>
+int main() {
+    int n;
+    float sum = 0;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+        sum += arr[i];
+    }
+    printf("Average = %.2f\n", sum / n);
+    return 0;
+}
+
+// 61. Search an Element in an Array (Linear/Binary)
+#include <stdio.h>
+int linearSearch(int arr[], int n, int key) {
+    for (int i = 0; i < n; i++)
+        if (arr[i] == key) return i;
+    return -1;
+}
+int binarySearch(int arr[], int l, int r, int key) {
+    while (l <= r) {
+        int mid = l + (r - l) / 2;
+        if (arr[mid] == key) return mid;
+        if (arr[mid] < key) l = mid + 1;
+        else r = mid - 1;
+    }
+    return -1;
+}
+int main() {
+    int n, key, choice;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    printf("Enter sorted array for binary search: ");
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    printf("Enter key: ");
+    scanf("%d", &key);
+    printf("1.Linear 2.Binary: ");
+    scanf("%d", &choice);
+    int index = (choice == 1) ? linearSearch(arr, n, key) : binarySearch(arr, 0, n - 1, key);
+    if (index != -1) printf("Found at index %d\n", index);
+    else printf("Not found\n");
+    return 0;
+}
+
+// 62. Sort an Array using Bubble Sort
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    for (int i = 0; i < n - 1; i++)
+        for (int j = 0; j < n - i - 1; j++)
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}
+
+// 63. Sort an Array using Selection Sort
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    for (int i = 0; i < n - 1; i++) {
+        int minIdx = i;
+        for (int j = i + 1; j < n; j++)
+            if (arr[j] < arr[minIdx]) minIdx = j;
+        int temp = arr[minIdx];
+        arr[minIdx] = arr[i];
+        arr[i] = temp;
+    }
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}
+
+// 64. Sort an Array using Insertion Sort
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}
+
+// 65. Sort an Array using Merge Sort
+#include <stdio.h>
+void merge(int arr[], int l, int m, int r) {
+    int n1 = m - l + 1, n2 = r - m;
+    int L[n1], R[n2];
+    for (int i = 0; i < n1; i++) L[i] = arr[l + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
+    int i = 0, j = 0, k = l;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) arr[k++] = L[i++];
+        else arr[k++] = R[j++];
+    }
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+}
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}
+int main() {
+    int n;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    mergeSort(arr, 0, n - 1);
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}
+
+// 66. Sort the Elements of an Array in Descending Order
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    for (int i = 0; i < n - 1; i++)
+        for (int j = 0; j < n - i - 1; j++)
+            if (arr[j] < arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+    printf("Descending order: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}
+
+// 67. Remove Duplicate Elements From a Sorted Array
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of elements (sorted): ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    int j = 0;
+    for (int i = 0; i < n - 1; i++)
+        if (arr[i] != arr[i + 1])
+            arr[j++] = arr[i];
+    arr[j++] = arr[n - 1];
+    printf("After removing duplicates: ");
+    for (int i = 0; i < j; i++) printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}
+
+// 68. Merge Two Arrays
+#include <stdio.h>
+int main() {
+    int n1, n2;
+    printf("Enter size of first array: ");
+    scanf("%d", &n1);
+    int arr1[n1];
+    for (int i = 0; i < n1; i++) scanf("%d", &arr1[i]);
+    printf("Enter size of second array: ");
+    scanf("%d", &n2);
+    int arr2[n2];
+    for (int i = 0; i < n2; i++) scanf("%d", &arr2[i]);
+    int merged[n1 + n2];
+    for (int i = 0; i < n1; i++) merged[i] = arr1[i];
+    for (int i = 0; i < n2; i++) merged[n1 + i] = arr2[i];
+    printf("Merged array: ");
+    for (int i = 0; i < n1 + n2; i++) printf("%d ", merged[i]);
+    printf("\n");
+    return 0;
+}
+
+// 69. Remove All Occurrences of an Element in an Array
+#include <stdio.h>
+int main() {
+    int n, key;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    printf("Enter element to remove: ");
+    scanf("%d", &key);
+    int newSize = 0;
+    for (int i = 0; i < n; i++)
+        if (arr[i] != key)
+            arr[newSize++] = arr[i];
+    printf("Array after removal: ");
+    for (int i = 0; i < newSize; i++) printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}
+
+// 70. Find Common Array Elements
+#include <stdio.h>
+int main() {
+    int n1, n2;
+    printf("Enter size of first array: ");
+    scanf("%d", &n1);
+    int arr1[n1];
+    for (int i = 0; i < n1; i++) scanf("%d", &arr1[i]);
+    printf("Enter size of second array: ");
+    scanf("%d", &n2);
+    int arr2[n2];
+    for (int i = 0; i < n2; i++) scanf("%d", &arr2[i]);
+    printf("Common elements: ");
+    for (int i = 0; i < n1; i++)
+        for (int j = 0; j < n2; j++)
+            if (arr1[i] == arr2[j]) {
+                printf("%d ", arr1[i]);
+                break;
+            }
+    printf("\n");
+    return 0;
+}
+
+// 71. Copy All Elements of One Array to Another
+#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int source[n], dest[n];
+    for (int i = 0; i < n; i++) scanf("%d", &source[i]);
+    for (int i = 0; i < n; i++) dest[i] = source[i];
+    printf("Copied array: ");
+    for (int i = 0; i < n; i++) printf("%d ", dest[i]);
+    printf("\n");
+    return 0;
+}
+
+// 72. Array Rotation (Left)
+#include <stdio.h>
+int main() {
+    int n, d;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    printf("Enter number of left rotations: ");
+    scanf("%d", &d);
+    d = d % n;
+    int temp[d];
+    for (int i = 0; i < d; i++) temp[i] = arr[i];
+    for (int i = d; i < n; i++) arr[i - d] = arr[i];
+    for (int i = 0; i < d; i++) arr[n - d + i] = temp[i];
+    printf("Rotated array: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}
+
+// 73. Sort the 2D Array Across Rows
+#include <stdio.h>
+void sortRow(int row[], int cols) {
+    for (int i = 0; i < cols - 1; i++)
+        for (int j = 0; j < cols - i - 1; j++)
+            if (row[j] > row[j + 1]) {
+                int temp = row[j];
+                row[j] = row[j + 1];
+                row[j + 1] = temp;
+            }
+}
+int main() {
+    int rows, cols;
+    printf("Enter rows and columns: ");
+    scanf("%d %d", &rows, &cols);
+    int arr[rows][cols];
+    printf("Enter elements:\n");
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            scanf("%d", &arr[i][j]);
+    for (int i = 0; i < rows; i++)
+        sortRow(arr[i], cols);
+    printf("Row-sorted matrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++)
+            printf("%d ", arr[i][j]);
+        printf("\n");
+    }
+    return 0;
+}
