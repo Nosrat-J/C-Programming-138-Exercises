@@ -10,7 +10,7 @@ This repository contains **138 well-structured C programs** covering fundamental
 
 | **Detail** | **Information** |
 | :--- | :--- |
-| **Name** | [Your Name] |
+| **Name** | Nosrat Jahan |
 | **Department** | Computer Science & Engineering (CSE) |
 | **Semester** | 1st Year |
 | **Course** | Structured Programming Language (C) |
